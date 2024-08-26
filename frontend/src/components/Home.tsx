@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, TextField, Button, List, ListItem, ListItemText, CircularProgress } from '@mui/material';
+import { Container, Typography, TextField, Button, List, ListItem, ListItemText, CircularProgress, Paper } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
 import { backend } from '../../declarations/backend';
 
@@ -57,38 +57,40 @@ const Home: React.FC = () => {
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" component="h1" gutterBottom>
-        Home
-      </Typography>
-      <TextField
-        fullWidth
-        multiline
-        rows={3}
-        variant="outlined"
-        placeholder="What's on your mind?"
-        value={statusText}
-        onChange={(e) => setStatusText(e.target.value)}
-        margin="normal"
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handlePostStatus}
-        disabled={loading}
-      >
-        Post Status
-      </Button>
-      {loading && <CircularProgress />}
-      <List>
-        {statuses.map((status) => (
-          <ListItem key={status.id.toString()}>
-            <ListItemText
-              primary={status.text}
-              secondary={`Posted by ${status.author} on ${new Date(Number(status.timestamp) / 1000000).toLocaleString()}`}
-            />
-          </ListItem>
-        ))}
-      </List>
+      <Paper elevation={3} style={{ padding: '20px', marginTop: '20px', backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Home
+        </Typography>
+        <TextField
+          fullWidth
+          multiline
+          rows={3}
+          variant="outlined"
+          placeholder="What's on your mind?"
+          value={statusText}
+          onChange={(e) => setStatusText(e.target.value)}
+          margin="normal"
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handlePostStatus}
+          disabled={loading}
+        >
+          Post Status
+        </Button>
+        {loading && <CircularProgress />}
+        <List>
+          {statuses.map((status) => (
+            <ListItem key={status.id.toString()}>
+              <ListItemText
+                primary={status.text}
+                secondary={`Posted by ${status.author} on ${new Date(Number(status.timestamp) / 1000000).toLocaleString()}`}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Paper>
     </Container>
   );
 };

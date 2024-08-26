@@ -9,6 +9,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f0f2f5;
+  background-image: url('https://internetcomputer.org/img/bitcoin-integration/4.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 code {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, TextField, Button, CircularProgress } from '@mui/material';
+import { Container, Typography, TextField, Button, CircularProgress, Paper } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
 import { backend } from '../../declarations/backend';
 
@@ -65,36 +65,38 @@ const Profile: React.FC = () => {
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" component="h1" gutterBottom>
-        Profile
-      </Typography>
-      <TextField
-        fullWidth
-        label="Name"
-        variant="outlined"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        margin="normal"
-      />
-      <TextField
-        fullWidth
-        label="Bio"
-        variant="outlined"
-        value={bio}
-        onChange={(e) => setBio(e.target.value)}
-        margin="normal"
-        multiline
-        rows={3}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleUpdateProfile}
-        disabled={loading}
-      >
-        Update Profile
-      </Button>
-      {loading && <CircularProgress />}
+      <Paper elevation={3} style={{ padding: '20px', marginTop: '20px', backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Profile
+        </Typography>
+        <TextField
+          fullWidth
+          label="Name"
+          variant="outlined"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Bio"
+          variant="outlined"
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          margin="normal"
+          multiline
+          rows={3}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleUpdateProfile}
+          disabled={loading}
+        >
+          Update Profile
+        </Button>
+        {loading && <CircularProgress />}
+      </Paper>
     </Container>
   );
 };
