@@ -1,0 +1,30 @@
+type UserId = principal;
+type User = 
+ record {
+   bio: opt text;
+   connections: vec UserId;
+   id: UserId;
+   name: text;
+ };
+type Time = int;
+type Status = 
+ record {
+   author: UserId;
+   id: nat;
+   "text": text;
+   timestamp: Time;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+service : {
+  addConnection: (UserId) -> (Result);
+  createUser: (text) -> (Result);
+  getConnections: (UserId) -> (vec UserId) query;
+  getStatusFeed: (UserId) -> (vec Status) query;
+  getUser: (UserId) -> (opt User) query;
+  postStatus: (text) -> (Result);
+  updateUser: (text, opt text) -> (Result);
+}
