@@ -17,8 +17,10 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchStatuses();
-  }, []);
+    if (principal) {
+      fetchStatuses();
+    }
+  }, [principal]);
 
   const fetchStatuses = async () => {
     if (principal) {
@@ -35,7 +37,7 @@ const Home: React.FC = () => {
   };
 
   const handlePostStatus = async () => {
-    if (statusText.trim() !== '') {
+    if (statusText.trim() !== '' && principal) {
       setLoading(true);
       try {
         await backend.postStatus(statusText);
@@ -48,6 +50,10 @@ const Home: React.FC = () => {
       }
     }
   };
+
+  if (!principal) {
+    return <Typography>Please log in to view and post statuses.</Typography>;
+  }
 
   return (
     <Container maxWidth="sm">

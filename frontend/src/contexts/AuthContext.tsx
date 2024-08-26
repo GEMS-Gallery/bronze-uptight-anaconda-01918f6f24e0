@@ -36,22 +36,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, []);
 
-  const login = () => {
-    authClient?.login({
-      identityProvider: process.env.DFX_NETWORK === 'ic' ? 'https://identity.ic0.app' : 'http://localhost:8000?canisterId=rwlgt-iiaaa-aaaaa-aaaaa-cai',
+  const login = async () => {
+    const client = authClient || await AuthClient.create();
+    const isLocalNetwork = process.env.DFX_NETWORK !== "ic";
+    const identityProviderUrl = isLocalNetwork
+      ? `http://${process.env.INTERNET_IDENTITY_CANISTER_ID}.localhost:8000`
+      : "https://identity.ic0.app";
+
+    await client.login({
+      identityProvider: identityProviderUrl,
       onSuccess: async () => {
+        setAuthClient(client);
         setIsAuthenticated(true);
-        const principal = await authClient.getIdentity().getPrincipal();
+        const identity = client.getIdentity();
+        const principal = identity.getPrincipal();
         setPrincipal(principal);
       },
     });
   };
 
-  const logout = () => {
-    authClient?.logout().then(() => {
+  const logout = async () => {
+    if (authClient) {
+      await authClient.logout();
       setIsAuthenticated(false);
       setPrincipal(null);
-    });
+    }
   };
 
   return (

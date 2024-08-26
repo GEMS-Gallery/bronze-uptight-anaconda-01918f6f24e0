@@ -18,8 +18,10 @@ const Profile: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchUserProfile();
-  }, []);
+    if (principal) {
+      fetchUserProfile();
+    }
+  }, [principal]);
 
   const fetchUserProfile = async () => {
     if (principal) {
@@ -40,16 +42,22 @@ const Profile: React.FC = () => {
   };
 
   const handleUpdateProfile = async () => {
-    setLoading(true);
-    try {
-      await backend.updateUser(name, bio ? [bio] : []);
-      fetchUserProfile();
-    } catch (error) {
-      console.error('Error updating profile:', error);
-    } finally {
-      setLoading(false);
+    if (principal) {
+      setLoading(true);
+      try {
+        await backend.updateUser(name, bio ? [bio] : []);
+        fetchUserProfile();
+      } catch (error) {
+        console.error('Error updating profile:', error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
+
+  if (!principal) {
+    return <Typography>Please log in to view and edit your profile.</Typography>;
+  }
 
   if (!user) {
     return <CircularProgress />;
